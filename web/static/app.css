@@ -1,0 +1,38 @@
+:root {
+  --bg: #f6f7f4;
+  --panel: #ffffff;
+  --ink: #202523;
+  --muted: #626b66;
+  --line: #d9ded7;
+  --accent: #176b5b;
+  --soft: #e9f2ee;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; background: var(--bg); color: var(--ink); font-family: Arial, Helvetica, sans-serif; }
+a { color: inherit; }
+.topbar { position: sticky; top: 0; z-index: 10; display: grid; gap: 10px; padding: 14px 16px; background: rgba(246, 247, 244, 0.96); border-bottom: 1px solid var(--line); }
+.brand { font-size: 18px; font-weight: 800; text-decoration: none; }
+.nav { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 2px; }
+.nav a { flex: 0 0 auto; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); color: var(--muted); text-decoration: none; }
+.shell { width: min(920px, calc(100% - 24px)); margin: 0 auto; padding: 18px 0 40px; }
+.auth-shell { width: min(420px, calc(100% - 24px)); margin: 0 auto; padding: 48px 0; }
+.panel { margin-bottom: 16px; padding: 16px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); }
+h1, h2 { margin: 0 0 14px; }
+.stack, .form-grid, .settings-list { display: grid; gap: 10px; }
+label { font-size: 14px; font-weight: 700; color: var(--muted); }
+textarea, input, select { width: 100%; border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; color: var(--ink); background: #fbfcfa; font: inherit; }
+textarea { resize: vertical; line-height: 1.5; }
+button { min-height: 44px; border: 0; border-radius: 8px; background: var(--accent); color: #ffffff; font: inherit; font-weight: 700; }
+.brief { margin: 0; white-space: pre-wrap; font-family: Arial, Helvetica, sans-serif; line-height: 1.5; }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 10px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; }
+.list { margin: 0; padding-left: 20px; line-height: 1.7; }
+.muted { color: var(--muted); }
+.form-grid label { display: grid; gap: 6px; }
+.settings-list { margin: 0; padding: 0; list-style: none; }
+.settings-list li { display: grid; gap: 4px; padding: 12px; border: 1px solid var(--line); border-radius: 8px; background: #fbfcfa; }
+.settings-list span { color: var(--muted); }
+.error { padding: 10px 12px; border: 1px solid #f2cabc; border-radius: 8px; background: #fff1ed; color: #8d2f18; }
+@media (min-width: 760px) { .topbar { grid-template-columns: 1fr auto; align-items: center; } }
