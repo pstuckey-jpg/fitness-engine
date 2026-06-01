@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% set title = "Account" %}
+
+{% block content %}
+  <section class="panel">
+    <h1>My Account</h1>
+    {% if user %}
+      <ul class="settings-list">
+        <li><strong>Email</strong><span>{{ user.email }}</span></li>
+        <li><strong>Created</strong><span>{{ user.created_at }}</span></li>
+        <li><strong>Change password</strong><span>Placeholder for a future secure password update flow.</span></li>
+        <li><strong>Delete account</strong><span>Placeholder only. Account deletion is not implemented yet.</span></li>
+      </ul>
+    {% else %}
+      <p class="error">Account not found.</p>
+    {% endif %}
+  </section>
+{% endblock %}
