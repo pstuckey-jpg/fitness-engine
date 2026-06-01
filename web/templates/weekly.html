@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% set title = "Weekly Summary" %}
+
+{% block content %}
+  <section class="panel">
+    <h1>Weekly Summary</h1>
+    <pre class="brief">{{ summary }}</pre>
+  </section>
+
+  <section class="panel">
+    <h2>Trend Snapshot</h2>
+    <ul class="list">
+      <li>Average calories: {{ trends.average_calories or "Not enough data" }}</li>
+      <li>Average protein: {{ trends.average_protein or "Not enough data" }}</li>
+      <li>Average sleep: {{ trends.average_sleep or "Not enough data" }}</li>
+      <li>Average steps: {{ trends.average_steps or "Not enough data" }}</li>
+      <li>Energy trend: {{ trends.energy_trend }}</li>
+    </ul>
+  </section>
+{% endblock %}
