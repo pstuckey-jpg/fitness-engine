@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% set title = "Profile" %}
+
+{% block content %}
+  <section class="panel">
+    <h1>Profile</h1>
+    <p class="muted">Current user: {{ user_id }}</p>
+    <form action="{{ url_for('profile') }}" method="post" class="form-grid">
+      <label for="calorie_target">Calorie target <input id="calorie_target" name="calorie_target" type="number" inputmode="numeric" value="{{ profile.get('calorie_target', '') }}" /></label>
+      <label for="protein_target">Protein target <input id="protein_target" name="protein_target" type="number" inputmode="numeric" value="{{ profile.get('protein_target', '') }}" /></label>
+      <label for="goal_direction">Goal direction
+        <select id="goal_direction" name="goal_direction">
+          {% set goal = profile.get('goal_direction', '') %}
+          <option value="" {% if goal == '' %}selected{% endif %}>Select</option>
+          <option value="cut" {% if goal == 'cut' %}selected{% endif %}>Cut fat</option>
+          <option value="recomp" {% if goal == 'recomp' %}selected{% endif %}>Recomp / leaner</option>
+          <option value="maintain" {% if goal == 'maintain' %}selected{% endif %}>Maintain</option>
+          <option value="gain" {% if goal == 'gain' %}selected{% endif %}>Lean gain</option>
+        </select>
+      </label>
+      <label for="diet_preferences">Diet preferences <input id="diet_preferences" name="diet_preferences" value="{{ profile.get('diet_preferences', '') }}" /></label>
+      <label for="equipment">Equipment <input id="equipment" name="equipment" value="{{ profile.get('equipment', '') }}" /></label>
+      <label for="injuries">Injuries <input id="injuries" name="injuries" value="{{ profile.get('injuries', '') }}" /></label>
+      <button type="submit">Save Profile</button>
+    </form>
+  </section>
+{% endblock %}
