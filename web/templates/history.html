@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% set title = "History" %}
+
+{% block content %}
+  <section class="panel">
+    <h1>History</h1>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Date</th><th>Calories</th><th>Protein</th><th>Sleep</th><th>Energy</th><th>Training</th></tr></thead>
+        <tbody>
+          {% for entry in entries %}
+            <tr>
+              <td>{{ entry.get("date", "") }}</td>
+              <td>{{ entry.get("calories", "") }}</td>
+              <td>{{ entry.get("protein_g", "") }}</td>
+              <td>{{ entry.get("sleep_hours", "") }}</td>
+              <td>{{ entry.get("energy_level", "") }}</td>
+              <td>{{ entry.get("training_type", "") }}</td>
+            </tr>
+          {% else %}
+            <tr><td colspan="6">No entries yet.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+{% endblock %}
