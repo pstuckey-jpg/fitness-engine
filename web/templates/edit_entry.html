@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% set title = "Edit Entry" %}
+
+{% block content %}
+  <section class="panel">
+    <h1>Edit Entry</h1>
+    <form action="{{ url_for('edit_entry', entry_id=entry.get('entry_id')) }}" method="post" class="stack">
+      <label for="raw_text">Natural-language log</label>
+      <textarea id="raw_text" name="raw_text" rows="9">{{ entry.get("raw_text", "") }}</textarea>
+      <button type="submit">Update Entry</button>
+    </form>
+  </section>
+{% endblock %}

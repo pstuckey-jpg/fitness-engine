@@ -8,10 +8,11 @@ from typing import Callable
 
 from flask import Flask, redirect, render_template, request, session, url_for
 
-from core import add_entry, compute_trends, generate_brief, generate_weekly_summary
+from core import add_entry, compute_trends, generate_brief, generate_intake_guidance, generate_weekly_summary
 from core.auth import authenticate_user, signup_user
 from core.profile import load_profile, save_profile
-from core.storage import DEFAULT_USER_ID, get_user, load_entries
+from core.parser import parse_entry
+from core.storage import DEFAULT_USER_ID, delete_entry, get_entry, get_user, load_entries, update_entry
 
 
 def create_app() -> Flask:
@@ -40,7 +41,10 @@ def create_app() -> Flask:
     def signup():
         error = None
         if request.method == "POST":
-            user, error = signup_user(request.form.get("email", ""), request.form.get("password", ""))
+            user, error = signup_user(
+                request.form.get("email", ""),
+                request.form.get("password", ""),
+            )
             if user:
                 session.clear()
                 session["user_id"] = user["user_id"]
@@ -51,7 +55,10 @@ def create_app() -> Flask:
     def login():
         error = None
         if request.method == "POST":
-            user, error = authenticate_user(request.form.get("email", ""), request.form.get("password", ""))
+            user, error = authenticate_user(
+                request.form.get("email", ""),
+                request.form.get("password", ""),
+            )
             if user:
                 session.clear()
                 session["user_id"] = user["user_id"]
@@ -83,7 +90,18 @@ def create_app() -> Flask:
     @login_required
     def brief() -> str:
         user_id = current_user_id()
-        return render_template("brief.html", brief=generate_brief(user_id=user_id), user_id=user_id)
+        return render_template(
+            "brief.html",
+            brief=generate_brief(user_id=user_id),
+            intake=generate_intake_guidance(user_id=user_id),
+            user_id=user_id,
+        )
+
+    @app.get("/intake")
+    @login_required
+    def intake() -> str:
+        user_id = current_user_id()
+        return render_template("intake.html", intake=generate_intake_guidance(user_id=user_id), user_id=user_id)
 
     @app.get("/history")
     @login_required
@@ -92,11 +110,36 @@ def create_app() -> Flask:
         entries = reversed(load_entries(user_id=user_id))
         return render_template("history.html", entries=entries, user_id=user_id)
 
+    @app.route("/entries/<entry_id>/edit", methods=["GET", "POST"])
+    @login_required
+    def edit_entry(entry_id: str):
+        user_id = current_user_id()
+        entry = get_entry(entry_id, user_id=user_id)
+        if entry is None:
+            return redirect(url_for("history"))
+        if request.method == "POST":
+            raw_text = request.form.get("raw_text", "").strip()
+            if raw_text:
+                update_entry(entry_id, parse_entry(raw_text), user_id=user_id)
+            return redirect(url_for("history"))
+        return render_template("edit_entry.html", entry=entry, user_id=user_id)
+
+    @app.post("/entries/<entry_id>/delete")
+    @login_required
+    def delete_entry_route(entry_id: str):
+        delete_entry(entry_id, user_id=current_user_id())
+        return redirect(url_for("history"))
+
     @app.get("/weekly")
     @login_required
     def weekly() -> str:
         user_id = current_user_id()
-        return render_template("weekly.html", summary=generate_weekly_summary(user_id=user_id), trends=compute_trends(user_id=user_id), user_id=user_id)
+        return render_template(
+            "weekly.html",
+            summary=generate_weekly_summary(user_id=user_id),
+            trends=compute_trends(user_id=user_id),
+            user_id=user_id,
+        )
 
     @app.route("/profile", methods=["GET", "POST"])
     @login_required
@@ -124,7 +167,11 @@ def create_app() -> Flask:
     @login_required
     def account() -> str:
         user_id = current_user_id()
-        user = get_user(user_id) or {"user_id": user_id, "email": "demo@local", "created_at": "Demo account"}
+        user = get_user(user_id) or {
+            "user_id": user_id,
+            "email": "demo@local",
+            "created_at": "Demo account",
+        }
         return render_template("account.html", user=user)
 
     return app
