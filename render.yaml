@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: fitness-insight-engine
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn web.app:app
+    envVars:
+      - key: DEMO_AUTO_LOGIN
+        value: "true"
+      - key: SECRET_KEY
+        generateValue: true
