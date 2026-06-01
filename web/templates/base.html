@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ title or "Fitness Insight Engine" }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="{{ url_for('daily_entry') }}">Fitness Insight</a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="{{ url_for('daily_entry') }}">Entry</a>
+        <a href="{{ url_for('brief') }}">Brief</a>
+        <a href="{{ url_for('history') }}">History</a>
+        <a href="{{ url_for('weekly') }}">Weekly</a>
+        <a href="{{ url_for('profile') }}">Profile</a>
+        <a href="{{ url_for('settings') }}">Settings</a>
+        <a href="{{ url_for('account') }}">Account</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+      </nav>
+    </header>
+
+    <main class="shell">
+      {% block content %}{% endblock %}
+    </main>
+  </body>
+</html>
