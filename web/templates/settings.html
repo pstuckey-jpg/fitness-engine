@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% set title = "Settings" %}
+
+{% block content %}
+  <section class="panel">
+    <h1>Settings</h1>
+    <p class="muted">Current user: {{ user_id }}</p>
+    <ul class="settings-list">
+      <li><strong>Account</strong><span>Reserved for login, signup, and profile ownership.</span></li>
+      <li><strong>Notifications</strong><span>Reserved for reminders and daily brief delivery.</span></li>
+      <li><strong>Data export</strong><span>Reserved for CSV, JSON, and account data downloads.</span></li>
+      <li><strong>Premium features</strong><span>Reserved for advanced insights, training plans, and billing.</span></li>
+    </ul>
+  </section>
+{% endblock %}
