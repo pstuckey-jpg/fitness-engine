@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% set title = "Daily Entry" %}
+
+{% block content %}
+  <section class="panel">
+    <h1>Daily Entry</h1>
+    <form action="{{ url_for('create_entry') }}" method="post" class="stack">
+      <label for="raw_text">Natural-language log</label>
+      <textarea id="raw_text" name="raw_text" rows="9" placeholder="Ate 3 eggs, toast, chicken rice bowl. Slept 11:30pm to 6:45am. Push day: bench 3x8 185. Energy 8/10."></textarea>
+      <button type="submit">Save and View Brief</button>
+    </form>
+  </section>
+{% endblock %}
